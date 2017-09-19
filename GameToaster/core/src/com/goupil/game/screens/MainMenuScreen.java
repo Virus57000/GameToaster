@@ -44,6 +44,9 @@ public class MainMenuScreen implements Screen {
         
         game.assets.load("characters/sheet_hero_walk.png", Texture.class);
         game.assets.load("characters/sheet_hero_idle.png", Texture.class);
+        game.assets.load("nature/bg/saturated/01_ground.png", Texture.class);
+        game.assets.load("nature/bg/saturated/11_background.png", Texture.class);
+        game.assets.load("nature/bg/saturated/10_distant_clouds.png", Texture.class);
 
         if (game.assets.update()) {
             game.batch.begin();

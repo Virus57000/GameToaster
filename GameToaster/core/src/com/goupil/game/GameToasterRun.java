@@ -13,6 +13,7 @@ public class GameToasterRun extends Game implements ApplicationListener {
     public AssetManager assets;
     public BitmapFont font;
     public float stateTime;
+    public int ground = 130;
 
     @Override
     public void create() {
