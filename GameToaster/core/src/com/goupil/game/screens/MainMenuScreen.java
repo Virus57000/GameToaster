@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.goupil.game.GameToasterRun;
 
 /**
@@ -40,11 +41,16 @@ public class MainMenuScreen implements Screen {
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+        
+        game.assets.load("characters/sheet_hero_walk.png", Texture.class);
+        game.assets.load("characters/sheet_hero_idle.png", Texture.class);
 
-        game.batch.begin();
-        game.font.draw(game.batch, "Welcome to GameToaster!!! ", 100, 150);
-        game.font.draw(game.batch, "Press SPACE to begin!", 100, 100);
-        game.batch.end();
+        if (game.assets.update()) {
+            game.batch.begin();
+            game.font.draw(game.batch, "Welcome to GameToaster!!! ", 100, 150);
+            game.font.draw(game.batch, "Press SPACE to begin!", 100, 100);
+            game.batch.end();
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
