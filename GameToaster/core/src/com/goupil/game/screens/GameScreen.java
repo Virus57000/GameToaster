@@ -6,6 +6,7 @@
 package com.goupil.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -22,6 +23,8 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     Animation<TextureRegion> idleAnimation;
     Animation<TextureRegion> walkAnimation;
+    int x = 0;
+    boolean moving = false;
 
     public GameScreen(final GameToasterRun game) {
         this.game = game;
@@ -33,15 +36,38 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.stateTime += Gdx.graphics.getDeltaTime() / 9;
+        game.stateTime += Gdx.graphics.getDeltaTime() / 8;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
-
-        TextureRegion currentFrame = idleAnimation.getKeyFrame(game.stateTime, true);
+        TextureRegion walkFrame = walkAnimation.getKeyFrame(game.stateTime, true);
+        TextureRegion idleFrame = idleAnimation.getKeyFrame(game.stateTime, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            walkFrame.flip(true, false);
+            if (x < -100) {
+                x += 5;
+            } else {
+                x += -5;
+            }
+            moving = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            walkFrame.flip(false, true);
+            if (x > 1180) {
+                x += -5;
+            } else {
+                x += 5;
+            }
+            moving = true;
+        }
         game.batch.begin();
         game.font.draw(game.batch, "Hi!!", 50, 50);
-        game.batch.draw(currentFrame, 500, 500, 100, 100);
+        if (moving) {
+            game.batch.draw(walkFrame, x, 200, 200, 200);
+        } else {
+            game.batch.draw(idleFrame, x, 200, 200, 200);
+        }
         game.batch.end();
+        moving = false;
     }
 
     @Override
